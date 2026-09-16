@@ -36,6 +36,7 @@ public static class Host
     /// <exception cref="System.InvalidOperationException">There is no service of type <typeparamref name="T"/></exception>
     public static T GetService<T>() where T : class
     {
+        if(_serviceProvider == null) Start(); //chạy qua command nếu không addin manager sẽ lỗi vì không chạy qua Application vì hàm Start k được chạy
         return _serviceProvider!.GetRequiredService<T>();
     }
 }

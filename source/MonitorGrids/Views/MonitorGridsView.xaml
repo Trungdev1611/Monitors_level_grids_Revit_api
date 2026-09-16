@@ -10,13 +10,183 @@
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     Title="MonitorGrids"
-    Height="450"
-    Width="800">
-    <Grid>
-        <TextBlock
-            Text="MonitorGrids"
-            FontSize="60"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center" />
+    Height="800"
+    Width="1000">
+    
+    <Window.Resources>
+    <!-- Dark Theme Colors -->
+    <SolidColorBrush x:Key="HeaderBg" Color="#2B2B36"/>
+    <SolidColorBrush x:Key="CardBg" Color="#25252E"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="#3F3F4E"/>
+    <SolidColorBrush x:Key="AccentBlue" Color="#0284C7"/>
+    <SolidColorBrush x:Key="AccentGreen" Color="#10B981"/>
+    <SolidColorBrush x:Key="AccentWarning" Color="#F59E0B"/>
+    <SolidColorBrush x:Key="AccentError" Color="#EF4444"/>
+
+    <!-- Custom Style for DataGrid -->
+    <Style TargetType="DataGrid">
+        <Setter Property="Background" Value="#1E1E24"/>
+        <Setter Property="RowBackground" Value="#1E1E24"/>
+        <Setter Property="AlternatingRowBackground" Value="#25252E"/>
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="#2B2B36"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="#E2E8F0"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="#10B981"/>
+        <Setter Property="Padding" Value="8"/>
+        
+        </Style>
+</Window.Resources>
+
+<Grid>
+
+    <Grid.RowDefinitions>
+        <!-- 0: Header Toolbar -->
+        <RowDefinition Height="Auto"/>
+        <!-- 1: Summary KPI Cards -->
+        <RowDefinition Height="Auto"/>
+        <!-- 2: Tabs & Search Filter -->
+        <RowDefinition Height="Auto"/>
+        <!-- 3: Main Data Grid -->
+        <RowDefinition Height="*"/>
+        <!-- 4: Footer Status Bar -->
+        <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <!-- 0: Header Toolbar -->
+    <Border Grid.Row="0" Background="{StaticResource HeaderBg}" Padding="12,10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Link Selector & Pin Indicator -->
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Target Link:" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#94A3B8" Margin="0,0,10,0" FontSize="12"/>
+                <ComboBox Name="CboRevitLinks" Width="300" Height="30" VerticalContentAlignment="Center" Margin="0,0,15,0"
+                          ItemsSource="{Binding LinkInstances}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedLink}"/>
+                
+                <!-- PIN Indicator -->
+                <Border Background="#064E3B" BorderBrush="#059669" BorderThickness="1" CornerRadius="4" Padding="8,4">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="📌 PINNED" Foreground="#34D399" FontWeight="Bold" FontSize="11"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- Top Quick Actions -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="🔄 Rescan Link" Width="110" Height="32" Margin="0,0,8,0" Background="#334155" Foreground="White" BorderThickness="0"/>
+                <Button Content="⚡ Auto-Sync Differences" Width="160" Height="32" Background="{StaticResource AccentBlue}" Foreground="White" FontWeight="SemiBold" BorderThickness="0"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+
+    <!-- 1: Summary KPI Cards -->
+    <Grid Grid.Row="1" Margin="12,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Card 1: Total Scanned -->
+        <Border Grid.Column="0" Background="{StaticResource HeaderBg}" CornerRadius="6" Padding="12" Margin="0,0,6,0" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Total Scanned" FontSize="11" Foreground="#94A3B8"/>
+                <TextBlock Text="{Binding TotalCount, FallbackValue='28'}" FontSize="20" FontWeight="Bold" Foreground="White" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Card 2: In Sync -->
+        <Border Grid.Column="1" Background="{StaticResource HeaderBg}" CornerRadius="6" Padding="12" Margin="3,0,3,0" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="In Sync (OK)" FontSize="11" Foreground="#94A3B8"/>
+                <TextBlock Text="{Binding SyncedCount, FallbackValue='21'}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AccentGreen}" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Card 3: Missing / Uncopied -->
+        <Border Grid.Column="2" Background="{StaticResource HeaderBg}" CornerRadius="6" Padding="12" Margin="3,0,3,0" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="New in Link (Missing)" FontSize="11" Foreground="#94A3B8"/>
+                <TextBlock Text="{Binding MissingCount, FallbackValue='4'}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AccentWarning}" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Card 4: Position Shifted -->
+        <Border Grid.Column="3" Background="{StaticResource HeaderBg}" CornerRadius="6" Padding="12" Margin="6,0,0,0" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Position Shifted" FontSize="11" Foreground="#94A3B8"/>
+                <TextBlock Text="{Binding ShiftedCount, FallbackValue='3'}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AccentError}" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
     </Grid>
+
+    <!-- 2: Tabs & Search Filter -->
+    <Grid Grid.Row="2" Margin="12,0,12,6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Tab Buttons -->
+        <StackPanel Grid.Column="0" Orientation="Horizontal">
+            <RadioButton Content="Grids (18)" Style="{StaticResource {x:Type ToggleButton}}" Width="110" Height="30" IsChecked="True" Margin="0,0,4,0"/>
+            <RadioButton Content="Levels (10)" Style="{StaticResource {x:Type ToggleButton}}" Width="110" Height="30"/>
+        </StackPanel>
+
+        <!-- Search Box & Filter -->
+        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBox Width="180" Height="28" Padding="5,3" Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <ComboBox Width="140" Height="28" SelectedIndex="0" VerticalAlignment="Center">
+                <ComboBoxItem Content="All Statuses"/>
+                <ComboBoxItem Content="New in Link"/>
+                <ComboBoxItem Content="Position Shifted"/>
+                <ComboBoxItem Content="In Sync"/>
+            </ComboBox>
+        </StackPanel>
+    </Grid>
+
+    <!-- 3: Main Data Grid -->
+    <DataGrid Grid.Row="3" Margin="12,0" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding DisplayItems}">
+        <DataGrid.Columns>
+            <DataGridCheckBoxColumn Header="Select" Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+            <DataGridTextColumn Header="Status" Binding="{Binding StatusText}" Width="120" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Type" Binding="{Binding ElementType}" Width="70" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Master Name" Binding="{Binding MasterName}" Width="*" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Host Name" Binding="{Binding HostName}" Width="*" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Shift / Delta" Binding="{Binding OffsetDistance}" Width="120" IsReadOnly="True"/>
+            <DataGridTemplateColumn Header="Action Required" Width="140">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding RecommendedAction}" FontWeight="SemiBold" Foreground="{StaticResource AccentBlue}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
+    </DataGrid>
+
+    <!-- 4: Footer Status Bar -->
+    <Border Grid.Row="4" Background="{StaticResource HeaderBg}" Padding="12,8" Margin="0,10,0,0" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="{Binding StatusMessage, FallbackValue='Ready. Select items to perform batch Copy/Monitor.'}" 
+                       VerticalAlignment="Center" Foreground="#CBD5E1" FontSize="12" FontFamily="Consolas"/>
+
+            <Button Grid.Column="1" Content="▶ Apply Selected Changes" Height="34" Width="180" 
+                    Background="{StaticResource AccentGreen}" Foreground="White" FontWeight="Bold" BorderThickness="0"/>
+        </Grid>
+    </Border>
+</Grid>
 </Window>
