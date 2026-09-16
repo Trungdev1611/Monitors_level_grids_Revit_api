@@ -1,0 +1,14 @@
+<RevitAddIns>
+    <AddIn Type="Application">
+        <Name>MonitorGrids</Name>
+        <Assembly>MonitorGrids\MonitorGrids.dll</Assembly>
+        <AddInId>FA8B35B7-9FBE-43F3-BD72-AE14F2CB6650</AddInId>
+        <FullClassName>MonitorGrids.Application</FullClassName>
+        <VendorId>Development</VendorId>
+        <VendorDescription></VendorDescription>
+    </AddIn>
+    <ManifestSettings>
+        <UseRevitContext>False</UseRevitContext>
+        <ContextName>MonitorGrids</ContextName>
+    </ManifestSettings>
+</RevitAddIns>
