@@ -83,8 +83,10 @@
 
             <!-- Top Quick Actions -->
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                <Button Content="🔄 Rescan Link" Width="110" Height="32" Margin="0,0,8,0" Background="#334155" Foreground="White" BorderThickness="0"/>
-                <Button Content="⚡ Auto-Sync Differences" Width="160" Height="32" Background="{StaticResource AccentBlue}" Foreground="White" FontWeight="SemiBold" BorderThickness="0"/>
+                <Button Content="🔄 Rescan Link" Width="110" Height="32" Margin="0,0,8,0" Background="#334155" Foreground="White" BorderThickness="0"
+                        Command="{Binding RescanCommand}"/>
+                <Button Content="⚡ Select All Diffs" Width="160" Height="32" Background="{StaticResource AccentBlue}" Foreground="White" FontWeight="SemiBold" BorderThickness="0"
+                        Command="{Binding SelectAllDifferencesCommand}"/>
             </StackPanel>
         </Grid>
     </Border>
@@ -186,8 +188,9 @@
             <TextBlock Grid.Column="0" Text="{Binding StatusMessage, FallbackValue='Ready. Select items to perform batch Copy/Monitor.'}" 
                        VerticalAlignment="Center" Foreground="#CBD5E1" FontSize="12" FontFamily="Consolas"/>
 
-            <Button Grid.Column="1" Content="▶ Apply Selected Changes" Height="34" Width="180" 
-                    Background="{StaticResource AccentGreen}" Foreground="White" FontWeight="Bold" BorderThickness="0"/>
+            <Button Grid.Column="1" Content="▶ Apply Selected Changes" Height="34" Width="180"
+                    Background="{StaticResource AccentGreen}" Foreground="White" FontWeight="Bold" BorderThickness="0"
+                    Command="{Binding ApplySelectedChangesCommand}"/>
         </Grid>
     </Border>
 </Grid>

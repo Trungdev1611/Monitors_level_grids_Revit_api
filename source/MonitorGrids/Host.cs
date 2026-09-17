@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MonitorGrids.Views;
 using MonitorGrids.ViewModels;
 using MonitorGrids.Configuration;
+using MonitorGrids.Services;
 
 namespace MonitorGrids;
 
@@ -23,6 +24,10 @@ public static class Host
         services.AddSerilog();
 
         
+
+        //Services
+        services.AddTransient<GridScannerService>();
+        services.AddTransient<GridSyncService>();
 
         //MVVM
         services.AddTransient<MonitorGridsViewModel>();
