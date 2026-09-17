@@ -22,6 +22,8 @@ public static class Host
         //Logging
         services.AddSerilog();
 
+        
+
         //MVVM
         services.AddTransient<MonitorGridsViewModel>();
         services.AddTransient<MonitorGridsView>();

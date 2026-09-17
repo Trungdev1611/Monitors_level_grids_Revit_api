@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Core;
@@ -36,8 +37,14 @@ public static class LoggingConfiguration
 
     private static Logger CreateDefaultLogger()
     {
+        // 1. Lấy đường dẫn thẳng đến màn hình Desktop của máy tính hiện tại
+        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        // 2. Tạo file log nằm ngay trên Desktop (Ví dụ đặt tên là: MonitorGrids_Log.txt)
+        string logPath = Path.Combine(desktopPath, "MonitorGrids_Log.txt");
+       
         return new LoggerConfiguration()
             .WriteTo.Debug(LogEventLevel.Debug, LogTemplate)
+            .WriteTo.File(logPath, outputTemplate: LogTemplate)
             .MinimumLevel.Debug()
             .CreateLogger();
     }

@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <UseWPF>true</UseWPF>
-        <DeployAddin>true</DeployAddin>
+        <DeployAddin>false</DeployAddin>
         <LaunchRevit>true</LaunchRevit>
         <IsRepackable>true</IsRepackable>
         <EnableDynamicLoading>true</EnableDynamicLoading>
@@ -12,36 +12,38 @@
 
     <ItemGroup>
         <!-- Revit Dependencies -->
-        <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*"/>
-        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*"/>
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*"/>
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*" />
+        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*" />
 
         <!-- Application Hosting -->
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.10"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.10" />
 
         <!-- Logging -->
-        <PackageReference Include="Serilog" Version="4.4.0"/>
-        <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0"/>
+        <PackageReference Include="Serilog" Version="4.4.0" />
+        <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
 
         <!-- MVVM -->
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 
         <!-- Build Automation-->
-        <PackageReference Include="ILRepack" Version="2.0.46"/>
+        <PackageReference Include="ILRepack" Version="2.0.46" />
+
 
         <!-- Development Dependencies -->
-        <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" PrivateAssets="all"/>
-        <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all"/>
+        <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" PrivateAssets="all" />
+        <PackageReference Include="Polyfill" Version="11.0.1" PrivateAssets="all" />
+        <PackageReference Include="Serilog.Sinks.File" Version="8.0.0-nblumhardt-02322" />
     </ItemGroup>
     
     <ItemGroup>
-        <Resource Include="Resources\Icons\RibbonIcon16.png"/>
-        <Resource Include="Resources\Icons\RibbonIcon32.png"/>
+        <Resource Include="Resources\Icons\RibbonIcon16.png" />
+        <Resource Include="Resources\Icons\RibbonIcon32.png" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Models"/>
+        <Folder Include="Models" />
     </ItemGroup>
 
 </Project>
